@@ -32,7 +32,7 @@ data class Player(var playerName :String) {
      *
      * Both objects are equal when other is a player and has the same name as this
      *
-     * @param other a reference to an object which we compare with this
+     * @param other a reference to an object which we compare with this object
      * @return true if both objects are equal, false otherwise
      */
     override fun equals(other: Any?): Boolean {
