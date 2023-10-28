@@ -12,7 +12,7 @@ import tools.aqua.bgw.util.Stack
  *           The key is the row number. Each of the rows have an own list.
  * @property player1 the first player
  * @property player2 the second player
- * @property currentPlayer a reference that contains the currentplayer
+ * @property currentPlayer a reference that holds the currentplayer
  */
 data class PyramidGame(val drawStack: Stack<Card>,
                        val reserveStack: Stack<Card>,
