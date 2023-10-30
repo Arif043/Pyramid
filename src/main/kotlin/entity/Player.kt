@@ -11,6 +11,11 @@ data class Player(var playerName :String) {
     var score: Int = 0
     var hasPressed: Boolean = false
 
+    init {
+        if (playerName == "")
+            throw IllegalArgumentException("empty name")
+    }
+
     /**
      * converts the player into a string
      *

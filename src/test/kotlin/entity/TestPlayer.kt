@@ -16,6 +16,11 @@ class TestPlayer {
     }
 
     @Test
+    fun initName() {
+        assertFailsWith<IllegalArgumentException> {Player("")}
+    }
+
+    @Test
     fun passed() {
         val otherPlayer = Player("User")
         otherPlayer.hasPressed = true
