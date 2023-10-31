@@ -1,6 +1,7 @@
-import view.SopraApplication
+import service.GameService
 
 fun main() {
-    SopraApplication().show()
-    println("Application ended. Goodbye")
+    GameService().startNewGame("a", "b")
+//    SopraApplication().show()
+//    println("Application ended. Goodbye")
 }

@@ -1,7 +1,5 @@
 package entity
 
-import java.util.*
-
 /**
  * Card represents a card in the pyramid game. A card includes a suit and a value
  *
@@ -24,26 +22,4 @@ data class Card(val suit: CardSuit, val value :CardValue) {
      * @return suit and value as string
      */
     override fun toString() = "$suit:$value"
-
-    /**
-     * computes the hashcode of a card
-     *
-     * @return hashcode - see [Objects.hash]
-     */
-    override fun hashCode() = Objects.hash(suit, value)
-
-    /**
-     * checks if a given object is equal.
-     *
-     * Two cards are equal when the corresponding suits and values are identical.
-     *
-     * @param other a reference to an object which we compare with this object
-     * @return true if both objects are equal, false otherwise
-     */
-    override fun equals(other: Any?): Boolean {
-        if (other is Card) {
-            return suit == other.suit && value == other.value
-        }
-        return false
-    }
 }
