@@ -18,7 +18,6 @@ data class PyramidGame(val drawStack: Stack<Card>,
                        val reserveStack: Stack<Card>,
                        val pyramid: MutableMap<Int, ArrayList<Card>>,
                        val player1: Player,
-                       val player2: Player
-) {
-    lateinit var currentPlayer: Player
-}
+                       val player2: Player,
+                       var currentPlayer: Player
+)

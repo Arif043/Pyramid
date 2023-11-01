@@ -9,14 +9,17 @@ class GameService(private val rootService: RootService) : AbstractRefreshingServ
         val allCards = defaultRandomCardList()
         val drawStack = Stack<Card>()
         val pyramid = HashMap<Int, ArrayList<Card>>()
+        val player1 = Player(player1Name)
+        val player2 = Player(player2Name)
 
         initCards(allCards, drawStack, pyramid)
         val game = PyramidGame(
             drawStack,
             Stack(),
             pyramid,
-            Player(player1Name),
-            Player(player2Name)
+            player1,
+            player2,
+            if ((0..1).random() == 0) player1 else player2
         )
         rootService.currentGame = game
         onAllRefreshable { /*refreshAfterStartGame()*/ }
@@ -24,7 +27,7 @@ class GameService(private val rootService: RootService) : AbstractRefreshingServ
 
     fun endGame() {
         val game = rootService.currentGame
-        val winner = if (game?.player1?.score!! > game.player2.score) game.player1 else game.player2
+        val winner = if (game.player1.score > game.player2.score) game.player1 else game.player2
         //refreshAfterEndGame()
     }
 
