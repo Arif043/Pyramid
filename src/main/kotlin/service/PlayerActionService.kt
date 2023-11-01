@@ -59,5 +59,5 @@ class PlayerActionService(private val rootService: RootService) : AbstractRefres
     private fun areCardsValid(card1: Card, card2: Card): Boolean =
         (!(card1.value == CardValue.ACE && card2.value == CardValue.ACE || card1.value() + card2.value() != 15))
 
-    fun Card.value() = CardValue.values().indexOf(this.value) + 2
+    private fun Card.value() = CardValue.values().indexOf(this.value) + 2
 }
