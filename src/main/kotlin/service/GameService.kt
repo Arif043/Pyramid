@@ -36,6 +36,7 @@ class GameService(private val rootService: RootService) : AbstractRefreshingServ
         for (i in 0..6) {
             pyramid[i] = ArrayList()
             repeat(i + 1) {
+                allCards[allCards.lastIndex].row = i
                 pyramid[i]?.add(allCards[allCards.lastIndex])
                 allCards = allCards.subList(0, allCards.lastIndex)
             }

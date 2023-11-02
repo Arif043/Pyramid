@@ -7,7 +7,7 @@ class PlayerActionService(private val rootService: RootService) : AbstractRefres
 
     fun removePair(card1: Card, card2: Card) {
         if (!areCardsValid(card1, card2))
-        ;//refreshAfterRemovePair(false)
+            return //refreshAfterRemovePair(false)
 
         val game = rootService.currentGame
         if (card1.value == CardValue.ACE || card2.value == CardValue.ACE)
@@ -20,6 +20,9 @@ class PlayerActionService(private val rootService: RootService) : AbstractRefres
 
         revealCard(card1)
         revealCard(card2)
+
+        game.pyramid[card1.row]?.remove(card1)
+        game.pyramid[card2.row]?.remove(card2)
 
         game.currentPlayer.hasPressed = false
         //refreshAfterRemovePair(true)
@@ -53,10 +56,9 @@ class PlayerActionService(private val rootService: RootService) : AbstractRefres
         if (neighbourIndex != null) {
             pyramid[card.row]?.get(neighbourIndex)?.revealed = true
         }
-        pyramid[card.row]?.remove(card)
     }
 
-    private fun areCardsValid(card1: Card, card2: Card): Boolean =
+    fun areCardsValid(card1: Card, card2: Card): Boolean =
         (!(card1.value == CardValue.ACE && card2.value == CardValue.ACE || card1.value() + card2.value() != 15))
 
     private fun Card.value() = CardValue.values().indexOf(this.value) + 2

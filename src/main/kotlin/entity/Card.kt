@@ -12,7 +12,7 @@ package entity
 data class Card(val suit: CardSuit, val value :CardValue) {
     var revealed :Boolean = false
     var isReserveCard :Boolean = false
-    val row: Int = 0
+    var row = 0
 
     /**
      * converts the card into a string
