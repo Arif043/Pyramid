@@ -15,4 +15,15 @@ class TestGameEnding {
         assertNotEquals(gameEndedBefore, root.gameService.gameEnded)
         assertTrue(root.gameService.gameEnded)
     }
+
+    @Test
+    fun testEndGameDuringPassing() {
+        val root = RootService()
+        root.gameService.startNewGame("Alice", "Bob")
+        val gameEndedBefore = root.gameService.gameEnded
+        root.playerActionService.pass()
+        root.playerActionService.pass()
+        assertNotEquals(gameEndedBefore, root.gameService.gameEnded)
+        assertTrue(root.gameService.gameEnded)
+    }
 }
