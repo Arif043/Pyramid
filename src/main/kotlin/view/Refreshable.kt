@@ -1,3 +1,5 @@
 package view
 
-interface Refreshable
+interface Refreshable {
+    fun refreshAfterEndGame()
+}

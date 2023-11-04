@@ -28,7 +28,7 @@ class GameService(private val rootService: RootService) : AbstractRefreshingServ
     fun endGame() {
         val game = rootService.currentGame
         val winner = if (game.player1.score > game.player2.score) game.player1 else game.player2
-        //refreshAfterEndGame()
+        refreshAfterEndGame()
     }
 
     private fun initCards(pAllCards: List<Card>, drawStack: Stack<Card>, pyramid: HashMap<Int, ArrayList<Card>>) {
@@ -36,11 +36,14 @@ class GameService(private val rootService: RootService) : AbstractRefreshingServ
         for (i in 0..6) {
             pyramid[i] = ArrayList()
             repeat(i + 1) {
+                if (it == 0 || it == i)
+                    allCards[allCards.lastIndex].revealed = true
                 allCards[allCards.lastIndex].row = i
                 pyramid[i]?.add(allCards[allCards.lastIndex])
                 allCards = allCards.subList(0, allCards.lastIndex)
             }
         }
+        allCards.forEach { it.isReserveCard = true }
         drawStack.pushAll(allCards)
     }
 
