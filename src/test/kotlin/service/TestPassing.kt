@@ -2,8 +2,16 @@ package service
 
 import kotlin.test.*
 
+/**
+ * Tests the pass function in PlayerActionService
+ */
 class TestPassing {
 
+    /**
+     * Tests if pass is working correctly when the first player passes
+     *
+     * When the first player passes so the current player switches to the second player
+     */
     @Test
     fun testFirstPlayerIsPassing() {
         val root = RootService()
@@ -24,6 +32,11 @@ class TestPassing {
         assertEquals(secondPlayer, game.currentPlayer)
     }
 
+    /**
+     * Tests if pass is working correctly when the second player passes
+     *
+     * When the second player passes so the current player switches to the first player
+     */
     @Test
     fun testSecondPlayerIsPassing() {
         val root = RootService()

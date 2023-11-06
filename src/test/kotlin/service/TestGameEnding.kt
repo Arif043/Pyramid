@@ -4,6 +4,9 @@ import kotlin.test.Test
 import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
 
+/**
+ * Tests the endGame function in GameService
+ */
 class TestGameEnding {
 
     @Test
@@ -16,6 +19,11 @@ class TestGameEnding {
         assertTrue(root.gameService.gameEnded)
     }
 
+    /**
+     * Tests if game ends when both player passed directly
+     *
+     * When both player pass directly so the game must end
+     */
     @Test
     fun testEndGameDuringPassing() {
         val root = RootService()

@@ -7,10 +7,17 @@ import tools.aqua.bgw.util.Stack
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
+/**
+ * Tests the removePair function PlayerActionService
+ * @property root the root service
+ */
 class TestRemovePair {
 
     lateinit var root: RootService
 
+    /**
+     *
+     */
     @Test
     fun testWithoutAce() {
         root = RootService()
