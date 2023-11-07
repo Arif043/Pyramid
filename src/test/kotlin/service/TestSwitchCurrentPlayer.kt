@@ -3,8 +3,14 @@ package service
 import kotlin.test.Test
 import kotlin.test.assertNotEquals
 
+/**
+ * Tests the switchCurrentPlayer function in PlayerActionService
+ */
 class TestSwitchCurrentPlayer {
 
+    /**
+     * Tests if the currentPlayer switches to the other player
+     */
     @Test
     fun test() {
         val root = RootService()

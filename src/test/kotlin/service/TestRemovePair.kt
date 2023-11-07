@@ -16,7 +16,10 @@ class TestRemovePair {
     lateinit var root: RootService
 
     /**
+     * Tests with only one ace and looks up how many points we get and if the row decreases by two
      *
+     * If there is no ace in the pair, so we get two points and the both cards in the pyramid get remove.
+     * The row decreases by 2
      */
     @Test
     fun testWithoutAce() {
@@ -42,6 +45,12 @@ class TestRemovePair {
         assertEquals(rowSize - 2, root.currentGame.pyramid[6]?.size)
     }
 
+    /**
+     * Tests with only one ace and looks up how many points we get and if the row decreases by two
+     *
+     * If one card is an ace, so we get one point and the both cards in the pyramid get remove.
+     * The row decreases by 2
+     */
     @Test
     fun testWithAce() {
         root = RootService()
@@ -65,6 +74,12 @@ class TestRemovePair {
         assertEquals(rowSize - 2, root.currentGame.pyramid[6]?.size)
     }
 
+    /**
+     * Tests with only aces and looks up how many points we get and if the row decreases by two
+     *
+     * If there is no ace in the pair, so we get zero points and both cards in the pyramid get not removed.
+     * The row does not decrease
+     */
     @Test
     fun testOnlyAces() {
         root = RootService()
@@ -88,6 +103,16 @@ class TestRemovePair {
         assertEquals(rowSize, root.currentGame.pyramid[6]?.size)
     }
 
+    /**
+     * A useful private function. swap two given cards in the game
+     *
+     * @param pivotCard A card with the characteristics that we want to swap
+     * @param card2Row The row in the pyramid that contains the second card
+     * @param card2ListIndex The index of the second card in the row we want to swap
+     *
+     * Firstly we look up in the drawStack to find the first card with the given characteristics
+     * If we dont find it then we search it in pyramid. The cards get swapped with their position and properties
+     */
     private fun swapCards(pivotCard: Card, card2Row: Int, card2ListIndex: Int) {
         val game = root.currentGame
         var card1 = pivotCard //Just for initialization

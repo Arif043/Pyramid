@@ -3,6 +3,11 @@ package service
 import entity.Card
 import kotlin.test.*
 
+/**
+ * Tests the revealCard function PlayerActionService
+ * @property root the root service
+ * @property pyramid the pyramid
+ */
 class TestRevealCard {
 
     var root = RootService()
@@ -13,6 +18,10 @@ class TestRevealCard {
         pyramid = root.currentGame.pyramid
     }
 
+    /**
+     * Tests if the neighbour of the first card gets revealed
+     *
+     */
     @Test
     fun testSomeRowLeading() {
         val isNeighbourRevealedBefore = pyramid[6]!![1].revealed
@@ -22,6 +31,9 @@ class TestRevealCard {
         assertNotEquals(isNeighbourRevealedBefore, pyramid[6]!![1].revealed)
     }
 
+    /**
+     * Tests if the neighbour of the last card gets revealed
+     */
     @Test
     fun testSomeRowTailing() {
         val isNeighbourRevealedBefore = pyramid[6]!![pyramid.size - 2].revealed
@@ -31,6 +43,9 @@ class TestRevealCard {
         assertNotEquals(isNeighbourRevealedBefore, pyramid[6]!![pyramid.size - 2].revealed)
     }
 
+    /**
+     * Tests if the neighbour of any card get not revealed
+     */
     @Test
     fun testInvalidRevealing() {
         val isLeftNeighbourRevealedBefore = pyramid[6]!![2].revealed
