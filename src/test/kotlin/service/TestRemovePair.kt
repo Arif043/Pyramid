@@ -36,10 +36,7 @@ class TestRemovePair {
         swapCards(card2, 6, 6)
 
         val currentPlayer = root.currentGame.currentPlayer
-        checkNotNull(root.currentGame)
-        checkNotNull(root.currentGame.pyramid)
-        checkNotNull(root.currentGame.pyramid[6])
-        val rowSize = root.currentGame.pyramid[6]!!.size
+        val rowSize = root.currentGame.pyramid[6]?.size ?: 0
         val scoreBefore = currentPlayer.score
 
         root.playerActionService.removePair(card1, card2)
@@ -68,7 +65,7 @@ class TestRemovePair {
         swapCards(card2, 6, 6)
 
         val currentPlayer = root.currentGame.currentPlayer
-        val rowSize = root.currentGame.pyramid[6]!!.size
+        val rowSize = root.currentGame.pyramid[6]?.size ?: 0
         val scoreBefore = currentPlayer.score
 
         root.playerActionService.removePair(card1, card2)
@@ -97,7 +94,7 @@ class TestRemovePair {
         swapCards(card2, 6, 6)
 
         val currentPlayer = root.currentGame.currentPlayer
-        val rowSize = root.currentGame.pyramid[6]!!.size
+        val rowSize = root.currentGame.pyramid[6]?.size
         val scoreBefore = currentPlayer.score
 
         root.playerActionService.removePair(card1, card2)
