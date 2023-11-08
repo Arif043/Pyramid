@@ -10,8 +10,8 @@ import kotlin.test.*
  */
 class TestRevealCard {
 
-    var root = RootService()
-    var pyramid: MutableMap<Int, ArrayList<Card>>
+    private var root = RootService()
+    private var pyramid: MutableMap<Int, ArrayList<Card>>
 
     init {
         root.gameService.startNewGame("Alice", "Bob")

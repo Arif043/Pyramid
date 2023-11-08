@@ -36,6 +36,9 @@ class TestRemovePair {
         swapCards(card2, 6, 6)
 
         val currentPlayer = root.currentGame.currentPlayer
+        checkNotNull(root.currentGame)
+        checkNotNull(root.currentGame.pyramid)
+        checkNotNull(root.currentGame.pyramid[6])
         val rowSize = root.currentGame.pyramid[6]!!.size
         val scoreBefore = currentPlayer.score
 
@@ -117,6 +120,7 @@ class TestRemovePair {
         val game = root.currentGame
         var card1 = pivotCard //Just for initialization
         val card2 = game.pyramid[card2Row]?.get(card2ListIndex)
+        checkNotNull(card2)
         //Search pivot card in drawstack
         val drawStackIndex = game.drawStack.indexOf(pivotCard)
         if (drawStackIndex != -1) {
@@ -125,7 +129,7 @@ class TestRemovePair {
                 tempStack.push(game.drawStack.pop())
             card1 = game.drawStack.pop()
             //Push card2 into the drawstack
-            game.drawStack.push(card2!!)
+            game.drawStack.push(card2)
             //Push the other cards back
             while (tempStack.isNotEmpty())
                 game.drawStack.push(tempStack.pop())
@@ -141,7 +145,7 @@ class TestRemovePair {
                         break@loop
                     }
             //Move card2 to the place of card1
-            game.pyramid[card1.row]?.set(listIndexOfCard1, card2!!)
+            game.pyramid[card1.row]?.set(listIndexOfCard1, card2)
         }
         //Move card1 to the place of card2
         game.pyramid[card2Row]?.set(card2ListIndex, card1)
@@ -149,7 +153,7 @@ class TestRemovePair {
         val tmpRow = card1.row
         val tmpIsReservecard = card1.isReserveCard
         val tmpReveleaded = card1.revealed
-        card1.row = card2!!.row
+        card1.row = card2.row
         card1.isReserveCard = card2.isReserveCard
         card1.revealed = card2.revealed
         card2.row = tmpRow
