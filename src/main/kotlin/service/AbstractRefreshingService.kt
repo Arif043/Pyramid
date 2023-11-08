@@ -4,7 +4,7 @@ import view.Refreshable
 
 abstract class AbstractRefreshingService : Refreshable {
 
-    val refreshable = ArrayList<Refreshable>()
+    private val refreshable = ArrayList<Refreshable>()
 
     var gameEnded = false //Just added for testing
     fun addRefreshable(newRefreshable: Refreshable) {
@@ -12,7 +12,7 @@ abstract class AbstractRefreshingService : Refreshable {
     }
 
     fun onAllRefreshable(method: Refreshable.() -> Unit) {
-
+        refreshable.forEach(method)
     }
 
     override fun refreshAfterEndGame() {
