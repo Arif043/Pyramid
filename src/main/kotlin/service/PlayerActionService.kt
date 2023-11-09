@@ -3,13 +3,25 @@ package service
 import entity.Card
 import entity.CardValue
 
+/**
+ * The central service for handling player action
+ *
+ * @property rootService the root service
+ */
 class PlayerActionService(private val rootService: RootService) : AbstractRefreshingService() {
 
+    /**
+     * Removes a pair of two cards if the pair is valid
+     *
+     * @param card1 the first card of the pair
+     * @param card2 the second card of the pair
+     */
     fun removePair(card1: Card, card2: Card) {
         if (!areCardsValid(card1, card2))
             return //refreshAfterRemovePair(false)
 
         val game = rootService.currentGame
+        //one card is an ace
         if (card1.value == CardValue.ACE || card2.value == CardValue.ACE)
             game.currentPlayer.score += 1
         else
@@ -27,6 +39,11 @@ class PlayerActionService(private val rootService: RootService) : AbstractRefres
         //refreshAfterRemovePair(true)
     }
 
+    /**
+     * the current player passes
+     *
+     * the current player has passed. The refrence switches to other player
+     */
     fun pass() {
         val game = rootService.currentGame
         game.currentPlayer.hasPressed = true
@@ -37,6 +54,11 @@ class PlayerActionService(private val rootService: RootService) : AbstractRefres
             switchCurrentPlayer()
     }
 
+    /**
+     * draws a card from the drawstack
+     *
+     * @throws IllegalStateException if drawstack is empty an IllegalStateException will be thrown
+     */
     fun drawCard() {
         val game = rootService.currentGame
         if (game.drawStack.isNotEmpty())
@@ -45,14 +67,25 @@ class PlayerActionService(private val rootService: RootService) : AbstractRefres
             throw IllegalStateException("Drawstack is already empty")
     }
 
+    /**
+     * switches the current player
+     *
+     * The other player will be the new current player after this function has been executed
+     */
     fun switchCurrentPlayer() {
         val game = rootService.currentGame
         game.currentPlayer = if (game.currentPlayer == game.player1) game.player2 else game.player1
     }
 
+    /**
+     * reveals the neighbours of the card to be removed
+     *
+     * @throws IllegalArgumentException the card to be removed has to be on the border, otherwise this exception will be thrown
+     */
     fun revealCard(card: Card) {
         val pyramid = rootService.currentGame.pyramid
         val index = pyramid[card.row]?.indexOf(card)
+        //determines the neighbours index
         val neighbourIndex = when (index) {
             0 -> 1
             pyramid[card.row]?.lastIndex -> pyramid[card.row]?.lastIndex?.minus(1)
@@ -64,6 +97,11 @@ class PlayerActionService(private val rootService: RootService) : AbstractRefres
         }
     }
 
+    /**
+     * checks the validity of a pair
+     *
+     * if both are aces or the sum isnt 15 then the pair is not valid
+     */
     fun areCardsValid(card1: Card, card2: Card): Boolean {
         val isCard1Ace = card1.value == CardValue.ACE
         val isCard2Ace = card2.value == CardValue.ACE
@@ -72,5 +110,8 @@ class PlayerActionService(private val rootService: RootService) : AbstractRefres
     // fun areCardsValid(card1: Card, card2: Card): Boolean =
     //   (!(card1.value == CardValue.ACE && card2.value == CardValue.ACE || card1.value() + card2.value() != 15))
 
+    /**
+     * determines the value of cardvalue
+     */
     private fun Card.value() = CardValue.values().indexOf(this.value) + 2
 }
