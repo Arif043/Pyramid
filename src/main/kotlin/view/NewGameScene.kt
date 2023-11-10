@@ -1,26 +1,19 @@
 package view
 
-import service.RootService
-import tools.aqua.bgw.core.BoardGameApplication
+import tools.aqua.bgw.components.uicomponents.Label
+import tools.aqua.bgw.core.MenuScene
 
-class SopraApplication : BoardGameApplication("SoPra Game"), Refreshable {
+class NewGameScene : MenuScene(1, 1), Refreshable {
 
-    private val rootService = RootService()
-    private val gameScene = PyramidGameScene()
-    private val newGameScene = NewGameScene()
+    val player1NameLabel = Label(
+        text = "Player 1",
+        posX = 100,
+        posY = 100
+    )
 
-   init {
-       rootService.addRefreshables(
-           this,
-           gameScene,
-           newGameScene
-       )
-
-       rootService.gameService.startNewGame("Alice", "Bob")
-
-       showGameScene(gameScene)
-       //showMenuScene(newGameScene, 0)
-   }
+    init {
+        addComponents(player1NameLabel)
+    }
 
     override fun refreshAfterEndGame() {
         TODO("Not yet implemented")

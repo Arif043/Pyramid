@@ -8,11 +8,9 @@ import view.Refreshable
  * connects to the view layer
  * @property refreshable a list for the refreshables to be stored
  */
-abstract class AbstractRefreshingService : Refreshable {
+abstract class AbstractRefreshingService {
 
-    private val refreshable = ArrayList<Refreshable>()
-
-    var gameEnded = false //Just added for testing
+    private val refreshable = mutableListOf<Refreshable>()
 
     /**
      * Adds a refreshable into the list
@@ -20,7 +18,7 @@ abstract class AbstractRefreshingService : Refreshable {
      * @param newRefreshable The refreshable to be added
      */
     fun addRefreshable(newRefreshable: Refreshable) {
-        refreshable.add(newRefreshable)
+        refreshable += newRefreshable
     }
 
     /**
@@ -30,12 +28,5 @@ abstract class AbstractRefreshingService : Refreshable {
      */
     fun onAllRefreshable(method: Refreshable.() -> Unit) {
         refreshable.forEach(method)
-    }
-
-    /**
-     * Refreshes the refreshable objects after game has ended
-     */
-    override fun refreshAfterEndGame() {
-        gameEnded = true
     }
 }

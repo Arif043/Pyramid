@@ -1,27 +1,9 @@
 package view
 
-import service.RootService
-import tools.aqua.bgw.core.BoardGameApplication
+import tools.aqua.bgw.core.BoardGameScene
+import tools.aqua.bgw.visual.ColorVisual
 
-class SopraApplication : BoardGameApplication("SoPra Game"), Refreshable {
-
-    private val rootService = RootService()
-    private val gameScene = PyramidGameScene()
-    private val newGameScene = NewGameScene()
-
-   init {
-       rootService.addRefreshables(
-           this,
-           gameScene,
-           newGameScene
-       )
-
-       rootService.gameService.startNewGame("Alice", "Bob")
-
-       showGameScene(gameScene)
-       //showMenuScene(newGameScene, 0)
-   }
-
+class PyramidGameScene : BoardGameScene(background = ColorVisual.ORANGE), Refreshable {
     override fun refreshAfterEndGame() {
         TODO("Not yet implemented")
     }

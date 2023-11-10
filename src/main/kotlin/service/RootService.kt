@@ -1,6 +1,7 @@
 package service
 
 import entity.PyramidGame
+import view.Refreshable
 
 /**
  * the central root service
@@ -13,4 +14,21 @@ class RootService {
     lateinit var currentGame: PyramidGame
     val gameService: GameService = GameService(this)
     val playerActionService: PlayerActionService = PlayerActionService(this)
+
+    /**
+     * Adds the provided [newRefreshable] to all services connected
+     * to this root service
+     */
+    fun addRefreshable(newRefreshable: Refreshable) {
+        gameService.addRefreshable(newRefreshable)
+        playerActionService.addRefreshable(newRefreshable)
+    }
+
+    /**
+     * Adds each of the provided [newRefreshables] to all services
+     * connected to this root service
+     */
+    fun addRefreshables(vararg newRefreshables: Refreshable) {
+        newRefreshables.forEach { addRefreshable(it) }
+    }
 }

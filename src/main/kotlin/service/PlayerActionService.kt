@@ -17,8 +17,10 @@ class PlayerActionService(private val rootService: RootService) : AbstractRefres
      * @param card2 the second card of the pair
      */
     fun removePair(card1: Card, card2: Card) {
-        if (!areCardsValid(card1, card2))
-            return //refreshAfterRemovePair(false)
+        if (!areCardsValid(card1, card2)) {
+            onAllRefreshable { refreshAfterRemovePair(true) }
+            return
+        }
 
         val game = rootService.currentGame
         //one card is an ace
@@ -27,16 +29,21 @@ class PlayerActionService(private val rootService: RootService) : AbstractRefres
         else
             game.currentPlayer.score += 2
 
-        if (game.pyramid.values.isEmpty())
-            rootService.gameService.endGame()
-
         revealCard(card1)
         revealCard(card2)
 
         game.pyramid[card1.row]?.remove(card1)
         game.pyramid[card2.row]?.remove(card2)
 
-        //refreshAfterRemovePair(true)
+        //counts the cards in pyramid
+        var cardCount = 0
+        game.pyramid.values.forEach { cardCount += it.size }
+        if (cardCount == 0)
+        ;//rootService.gameService.endGame()
+
+        onAllRefreshable { refreshAfterRemovePair(true) }
+
+        switchCurrentPlayer()
     }
 
     /**
@@ -48,8 +55,9 @@ class PlayerActionService(private val rootService: RootService) : AbstractRefres
         val game = rootService.currentGame
         game.currentPlayer.hasPressed = true
         val otherPlayer = if (game.currentPlayer == game.player1) game.player2 else game.player1
+        onAllRefreshable { refreshAfterPass() }
         if (otherPlayer.hasPressed)
-            rootService.gameService.endGame()
+            ;//rootService.gameService.endGame()
         else
             switchCurrentPlayer()
     }
@@ -61,10 +69,14 @@ class PlayerActionService(private val rootService: RootService) : AbstractRefres
      */
     fun drawCard() {
         val game = rootService.currentGame
-        if (game.drawStack.isNotEmpty())
+        if (game.drawStack.isNotEmpty()) {
             game.reserveStack.push(game.drawStack.pop())
-        else
+            onAllRefreshable { refreshAfterDrawCard(true) }
+        } else {
+            onAllRefreshable { refreshAfterDrawCard(false) }
             throw IllegalStateException("Drawstack is already empty")
+        }
+        switchCurrentPlayer()
     }
 
     /**
@@ -75,6 +87,7 @@ class PlayerActionService(private val rootService: RootService) : AbstractRefres
     fun switchCurrentPlayer() {
         val game = rootService.currentGame
         game.currentPlayer = if (game.currentPlayer == game.player1) game.player2 else game.player1
+        onAllRefreshable { refreshAfterSwitchPlayer() }
     }
 
     /**

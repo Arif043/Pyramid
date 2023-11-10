@@ -17,8 +17,7 @@ class HelloScene : BoardGameScene(500, 500) {
     )
 
     init {
-        background = ColorVisual(108, 168, 59)
+        background = ColorVisual(108, 168, 240)
         addComponents(helloLabel)
     }
-
 }

@@ -36,17 +36,6 @@ class GameService(private val rootService: RootService) : AbstractRefreshingServ
     }
 
     /**
-     * Ends up the game
-     *
-     * determines which player has won and shows the end screen
-     */
-    fun endGame() {
-        val game = rootService.currentGame
-        val winner = if (game.player1.score > game.player2.score) game.player1 else game.player2
-        refreshAfterEndGame()
-    }
-
-    /**
      * A private help function for the initialization
      *
      * @param pAllCards a list of all 52 cards
