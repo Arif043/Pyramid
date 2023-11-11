@@ -19,7 +19,8 @@ class SopraApplication : BoardGameApplication("SoPra Game"), Refreshable {
        rootService.gameService.startNewGame("Alice", "Bob")
 
        showGameScene(gameScene)
-       //showMenuScene(newGameScene, 0)
+       showMenuScene(newGameScene, 0)
+       Thread.sleep(3000)
    }
 
     override fun refreshAfterEndGame() {

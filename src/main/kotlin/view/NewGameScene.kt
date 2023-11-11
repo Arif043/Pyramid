@@ -7,8 +7,8 @@ class NewGameScene : MenuScene(1, 1), Refreshable {
 
     val player1NameLabel = Label(
         text = "Player 1",
-        posX = 100,
-        posY = 100
+        posX = 10,
+        posY = 10
     )
 
     init {

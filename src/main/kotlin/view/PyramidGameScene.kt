@@ -1,9 +1,21 @@
 package view
 
+import tools.aqua.bgw.components.uicomponents.Label
 import tools.aqua.bgw.core.BoardGameScene
 import tools.aqua.bgw.visual.ColorVisual
 
 class PyramidGameScene : BoardGameScene(background = ColorVisual.ORANGE), Refreshable {
+
+    init {
+        addComponents(
+            Label(
+                text = "ABCDE"
+            ),
+            Label(
+                text = "FGHGFG"
+            )
+        )
+    }
     override fun refreshAfterEndGame() {
         TODO("Not yet implemented")
     }
