@@ -20,7 +20,6 @@ class SopraApplication : BoardGameApplication("SoPra Game"), Refreshable {
 
        showGameScene(gameScene)
        showMenuScene(newGameScene, 0)
-       Thread.sleep(3000)
    }
 
     override fun refreshAfterEndGame() {

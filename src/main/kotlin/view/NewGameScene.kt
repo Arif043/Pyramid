@@ -1,18 +1,28 @@
 package view
 
 import tools.aqua.bgw.components.uicomponents.Label
+import tools.aqua.bgw.components.uicomponents.TextField
 import tools.aqua.bgw.core.MenuScene
+import tools.aqua.bgw.util.Font
 
-class NewGameScene : MenuScene(1, 1), Refreshable {
+class NewGameScene : MenuScene(), Refreshable {
 
     val player1NameLabel = Label(
         text = "Player 1",
         posX = 10,
-        posY = 10
+        posY = 10,
+        font = Font(26)
+    )
+    val player1NameField = TextField(
+        posY = player1NameLabel.posY + player1NameLabel.height + 15,
+        font = Font(26)
     )
 
     init {
-        addComponents(player1NameLabel)
+        addComponents(
+            player1NameLabel,
+            player1NameField
+        )
     }
 
     override fun refreshAfterEndGame() {
