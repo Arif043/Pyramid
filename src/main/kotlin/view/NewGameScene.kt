@@ -1,5 +1,6 @@
 package view
 
+import service.RootService
 import tools.aqua.bgw.components.uicomponents.Button
 import tools.aqua.bgw.components.uicomponents.Label
 import tools.aqua.bgw.components.uicomponents.TextField
@@ -8,9 +9,8 @@ import tools.aqua.bgw.core.MenuScene
 import tools.aqua.bgw.util.Font
 import tools.aqua.bgw.visual.ColorVisual
 import java.awt.Color
-import kotlin.system.exitProcess
 
-class NewGameScene : MenuScene(270, 500), Refreshable {
+class NewGameScene(private val rootService: RootService) : MenuScene(270, 500), Refreshable {
 
     private val fontSize = 13
 
@@ -54,8 +54,6 @@ class NewGameScene : MenuScene(270, 500), Refreshable {
     )
 
     init {
-        registerHandler()
-
         player1NameField.width *= 1.9
         player2NameField.width *= 1.9
         addComponents(
@@ -68,42 +66,27 @@ class NewGameScene : MenuScene(270, 500), Refreshable {
         )
     }
 
-    private fun registerHandler() {
-        quitButton.onMouseClicked = {
-            exitProcess(0)
-        }
-        startButton.onMouseClicked = {
-            if (player1NameField.text.isBlank() || player2NameField.text.isBlank()) {
-                removeComponents(errorLabel)
-                addComponents(errorLabel)
-            }
-            else {
-
-            }
-        }
-    }
-
     override fun refreshAfterEndGame() {
-        TODO("Not yet implemented")
+
     }
 
     override fun refreshAfterStartNewGame() {
-        TODO("Not yet implemented")
+
     }
 
     override fun refreshAfterRemovePair(cardsAreValid: Boolean) {
-        TODO("Not yet implemented")
+
     }
 
     override fun refreshAfterDrawCard(stackNoptEmpty: Boolean) {
-        TODO("Not yet implemented")
+
     }
 
     override fun refreshAfterPass() {
-        TODO("Not yet implemented")
+
     }
 
     override fun refreshAfterSwitchPlayer() {
-        TODO("Not yet implemented")
+
     }
 }
