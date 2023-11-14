@@ -3,9 +3,12 @@ package view
 import tools.aqua.bgw.components.uicomponents.Button
 import tools.aqua.bgw.components.uicomponents.Label
 import tools.aqua.bgw.components.uicomponents.TextField
+import tools.aqua.bgw.core.Alignment
 import tools.aqua.bgw.core.MenuScene
 import tools.aqua.bgw.util.Font
 import tools.aqua.bgw.visual.ColorVisual
+import java.awt.Color
+import kotlin.system.exitProcess
 
 class NewGameScene : MenuScene(270, 500), Refreshable {
 
@@ -22,17 +25,24 @@ class NewGameScene : MenuScene(270, 500), Refreshable {
     )
     val player2NameLabel = Label(
         text = "Player 2",
-        posY = player1NameField.posY + player1NameField.height + 80,
+        posY = player1NameField.posY + player1NameField.height + 15,
         font = Font(fontSize)
     )
     val player2NameField = TextField(
         posY = player2NameLabel.posY + player2NameLabel.height,
         font = Font(fontSize)
     )
+    val errorLabel = Label(
+        posY = player2NameField.posY + player2NameField.height + 50,
+        width = width * 2,
+        alignment = Alignment.TOP_LEFT,
+        text = "Empty names are not allowed",
+        font = Font(fontSize, Color.RED)
+    )
     val quitButton = Button(
         text = "Quit",
         visual = ColorVisual.RED,
-        posY = player2NameField.posY + 180,
+        posY = errorLabel.posY + 140,
         font = Font(fontSize)
     )
     val startButton = Button(
@@ -44,6 +54,8 @@ class NewGameScene : MenuScene(270, 500), Refreshable {
     )
 
     init {
+        registerHandler()
+
         player1NameField.width *= 1.9
         player2NameField.width *= 1.9
         addComponents(
@@ -54,6 +66,21 @@ class NewGameScene : MenuScene(270, 500), Refreshable {
             quitButton,
             startButton
         )
+    }
+
+    private fun registerHandler() {
+        quitButton.onMouseClicked = {
+            exitProcess(0)
+        }
+        startButton.onMouseClicked = {
+            if (player1NameField.text.isBlank() || player2NameField.text.isBlank()) {
+                removeComponents(errorLabel)
+                addComponents(errorLabel)
+            }
+            else {
+
+            }
+        }
     }
 
     override fun refreshAfterEndGame() {
