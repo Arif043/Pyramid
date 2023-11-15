@@ -8,22 +8,31 @@ import tools.aqua.bgw.components.gamecomponentviews.CardView
 import tools.aqua.bgw.core.BoardGameScene
 import tools.aqua.bgw.visual.ColorVisual
 import tools.aqua.bgw.visual.ImageVisual
-import java.awt.image.BufferedImage
 
 class PyramidGameScene(private val rootService: RootService) : BoardGameScene(background = ColorVisual.ORANGE),
     Refreshable {
 
-    val c = CardStack<CardView>()
+    val c = CardStack<CardView>(10, 10)
 
     init {
-        val loader = CardImageLoader()
-        val cc = CardView(front = ImageVisual(getCardViewFrom(rootService.currentGame.drawStack.peek())))
-        addComponents(cc)
+        buildDrawStack()
+        //val cc = CardView(front = ImageVisual(getCardViewFrom(rootService.currentGame.drawStack.peek())))
+
+        addComponents(c)
+        print(c.)
     }
 
-    private fun getCardViewFrom(card: Card): BufferedImage {
+    private fun buildDrawStack() {
+        val drawStackCards = rootService.currentGame.drawStack.peekAll()
+        for (i in 0..drawStackCards.lastIndex) {
+            c.add(getCardViewFrom(drawStackCards[i]), i)
+        }
+
+    }
+
+    private fun getCardViewFrom(card: Card) : CardView {
         val loader = CardImageLoader()
-        return loader.frontImageFor(card.suit, card.value)
+        return CardView(front = ImageVisual(loader.frontImageFor(card.suit, card.value)))
     }
 
     override fun refreshAfterEndGame() {
