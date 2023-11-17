@@ -29,8 +29,7 @@ class SopraApplication : BoardGameApplication("SoPra Game"), Refreshable {
 
 
        showGameScene(gameScene)
-       showMenuScene(gameEndMenu)
-       //showMenuScene(newGameScene)
+       showMenuScene(newGameScene)
    }
 
     private fun registerMenuEvents() {

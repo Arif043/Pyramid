@@ -157,7 +157,6 @@ class PyramidGameScene(private val rootService: RootService) : BoardGameScene(ba
         })
     }
 
-
     override fun refreshAfterEndGame() {
         println("end")
     }
@@ -170,16 +169,7 @@ class PyramidGameScene(private val rootService: RootService) : BoardGameScene(ba
         for (cardTriple in selectedCards) {
             if (cardsAreValid) {
                 if (!cardTriple.second.isReserveCard) {
-                    removeComponents(cardTriple.first)
-                    val neighbourIndex = when (pyramid[cardTriple.third]?.indexOf(cardTriple.first)) {
-                        0 -> 1
-                        else -> pyramid[cardTriple.third]?.lastIndex?.minus(1)
-                    }
-                    if (neighbourIndex != null && pyramid[cardTriple.third]?.size != 1) {
-                        pyramid[cardTriple.third]?.get(neighbourIndex)?.showFront()
-                    }
-
-                    pyramid[cardTriple.third]?.remove(cardTriple.first)
+                    removePyramidCard(cardTriple)
                 } else {
                     reserveStack.pop()
                 }
@@ -189,6 +179,19 @@ class PyramidGameScene(private val rootService: RootService) : BoardGameScene(ba
                     highlightSelectedCard(cardTriple.first, 20)
             }
         }
+    }
+
+    private fun removePyramidCard(cardTriple: Triple<CardView, Card, Int>) {
+        removeComponents(cardTriple.first)
+        val neighbourIndex = when (pyramid[cardTriple.third]?.indexOf(cardTriple.first)) {
+            0 -> 1
+            else -> pyramid[cardTriple.third]?.lastIndex?.minus(1)
+        }
+        if (neighbourIndex != null && pyramid[cardTriple.third]?.size != 1) {
+            pyramid[cardTriple.third]?.get(neighbourIndex)?.showFront()
+        }
+
+        pyramid[cardTriple.third]?.remove(cardTriple.first)
     }
 
     override fun refreshAfterDrawCard(stackNoptEmpty: Boolean) {
