@@ -32,7 +32,7 @@ class GameService(private val rootService: RootService) : AbstractRefreshingServ
             if ((0..1).random() == 0) player1 else player2
         )
         rootService.currentGame = game
-        onAllRefreshable { /*refreshAfterStartGame()*/ }
+        onAllRefreshable { refreshAfterStartNewGame() }
     }
 
     /**

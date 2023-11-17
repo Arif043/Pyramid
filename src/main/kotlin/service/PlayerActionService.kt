@@ -18,7 +18,7 @@ class PlayerActionService(private val rootService: RootService) : AbstractRefres
      */
     fun removePair(card1: Card, card2: Card) {
         if (!areCardsValid(card1, card2)) {
-            onAllRefreshable { refreshAfterRemovePair(true) }
+            onAllRefreshable { refreshAfterRemovePair(false) }
             return
         }
 
@@ -39,7 +39,7 @@ class PlayerActionService(private val rootService: RootService) : AbstractRefres
         var cardCount = 0
         game.pyramid.values.forEach { cardCount += it.size }
         if (cardCount == 0)
-        ;//rootService.gameService.endGame()
+            onAllRefreshable { refreshAfterEndGame() }
 
         onAllRefreshable { refreshAfterRemovePair(true) }
 
@@ -57,7 +57,7 @@ class PlayerActionService(private val rootService: RootService) : AbstractRefres
         val otherPlayer = if (game.currentPlayer == game.player1) game.player2 else game.player1
         onAllRefreshable { refreshAfterPass() }
         if (otherPlayer.hasPressed)
-            ;//rootService.gameService.endGame()
+            onAllRefreshable { refreshAfterEndGame() }
         else
             switchCurrentPlayer()
     }
@@ -70,7 +70,9 @@ class PlayerActionService(private val rootService: RootService) : AbstractRefres
     fun drawCard() {
         val game = rootService.currentGame
         if (game.drawStack.isNotEmpty()) {
-            game.reserveStack.push(game.drawStack.pop())
+            val card = game.drawStack.pop()
+            card.revealed = true
+            game.reserveStack.push(card)
             onAllRefreshable { refreshAfterDrawCard(true) }
         } else {
             onAllRefreshable { refreshAfterDrawCard(false) }
@@ -96,17 +98,19 @@ class PlayerActionService(private val rootService: RootService) : AbstractRefres
      * @throws IllegalArgumentException the card to be removed has to be on the border, otherwise this exception will be thrown
      */
     fun revealCard(card: Card) {
-        val pyramid = rootService.currentGame.pyramid
-        val index = pyramid[card.row]?.indexOf(card)
-        //determines the neighbours index
-        val neighbourIndex = when (index) {
-            0 -> 1
-            pyramid[card.row]?.lastIndex -> pyramid[card.row]?.lastIndex?.minus(1)
-            else -> throw IllegalArgumentException("Card is not on border")
+        if (!card.isReserveCard) {
+            val pyramid = rootService.currentGame.pyramid
+            val index = pyramid[card.row]?.indexOf(card)
+            //determines the neighbours index
+            val neighbourIndex = when (index) {
+                0 -> 1
+                pyramid[card.row]?.lastIndex -> pyramid[card.row]?.lastIndex?.minus(1)
+                else -> throw IllegalArgumentException("Card is not on border")
 
-        }
-        if (neighbourIndex != null) {
-            pyramid[card.row]?.get(neighbourIndex)?.revealed = true
+            }
+            if (neighbourIndex != null && pyramid[card.row]?.size != 1) {
+                pyramid[card.row]?.get(neighbourIndex)?.revealed = true
+            }
         }
     }
 
@@ -120,8 +124,6 @@ class PlayerActionService(private val rootService: RootService) : AbstractRefres
         val isCard2Ace = card2.value == CardValue.ACE
         return !(isCard1Ace && isCard2Ace) && (isCard1Ace.xor(isCard2Ace) || card1.value() + card2.value() == 15)
     }
-    // fun areCardsValid(card1: Card, card2: Card): Boolean =
-    //   (!(card1.value == CardValue.ACE && card2.value == CardValue.ACE || card1.value() + card2.value() != 15))
 
     /**
      * determines the value of cardvalue

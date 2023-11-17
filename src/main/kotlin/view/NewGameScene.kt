@@ -13,7 +13,6 @@ import java.awt.Color
 class NewGameScene(private val rootService: RootService) : MenuScene(270, 500), Refreshable {
 
     private val fontSize = 13
-
     val player1NameLabel = Label(
         text = "Player 1",
         posY = 10,

@@ -9,6 +9,7 @@ class SopraApplication : BoardGameApplication("SoPra Game"), Refreshable {
     private val rootService = RootService()
     private var gameScene: PyramidGameScene
     private var newGameScene: NewGameScene
+    private var gameEndMenu: GameFinishedMenuScene
 
    init {
        //Just for style
@@ -16,17 +17,20 @@ class SopraApplication : BoardGameApplication("SoPra Game"), Refreshable {
 
        gameScene = PyramidGameScene(rootService)
        newGameScene = NewGameScene(rootService)
+       gameEndMenu = GameFinishedMenuScene(rootService)
 
        rootService.addRefreshables(
-           this,
+           gameEndMenu,
            gameScene,
-           newGameScene
+           newGameScene,
+           this
        )
        registerMenuEvents()
 
 
        showGameScene(gameScene)
-       //showMenuScene(newGameScene) Just for developing
+       showMenuScene(gameEndMenu)
+       //showMenuScene(newGameScene)
    }
 
     private fun registerMenuEvents() {
@@ -45,9 +49,18 @@ class SopraApplication : BoardGameApplication("SoPra Game"), Refreshable {
                 hideMenuScene()
             }
         }
+        gameEndMenu.restartButton.onMouseClicked = {
+            hideMenuScene()
+            showMenuScene(newGameScene)
+        }
+        gameEndMenu.quitButton.onMouseClicked = {
+            exitProcess(0)
+        }
     }
 
     override fun refreshAfterEndGame() {
+        hideMenuScene()
+        showMenuScene(gameEndMenu)
     }
 
     override fun refreshAfterStartNewGame() {
