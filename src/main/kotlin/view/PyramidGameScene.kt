@@ -43,7 +43,7 @@ class PyramidGameScene(val rootService: RootService) : BoardGameScene(background
         Label(300, 900, width = 3 * width, alignment = Alignment.TOP_LEFT, font = Font(26), text = "Current Player")
     private val passButton =
         Button(800, 900, text = "Pass", font = Font(fontWeight = Font.FontWeight.BOLD))
-    private val selectedCards = ArrayList<Triple<CardView, Card, Int>>()
+    val selectedCards = ArrayList<Triple<CardView, Card, Int>>()
     val loader = CardImageLoader()
     private val util = PyramidGameUtil(this)
     val pyramidX = 500.0
@@ -111,10 +111,10 @@ class PyramidGameScene(val rootService: RootService) : BoardGameScene(background
                     //If the card is on border
                     if ((index == 0 || index == pyramid[entry.key]?.lastIndex) && card != null) {
                         //Select the card and add it to the list
-                        highlightSelectedCard(cardView, -20)
+                        util.highlightSelectedCard(cardView, -20)
                         //Just for null check
                         selectedCards.add(Triple(cardView, card, entry.key))
-                        confirmSelectedPair()
+                        util.confirmSelectedPair()
                     }
                 }
             }
@@ -128,39 +128,13 @@ class PyramidGameScene(val rootService: RootService) : BoardGameScene(background
                 //If reserveStack contains at least a game card then select the top card
                 if (topCardIsNotBlank) {
                     selectedCards += Triple(reserveStack.peek(), rootService.currentGame.reserveStack.peek(), 7)
-                    confirmSelectedPair()
+                    util.confirmSelectedPair()
                 }
             }
         }
         passButton.onMouseClicked = {
             rootService.playerActionService.pass()
         }
-    }
-
-    /**
-     * Triggers the removing of the selected pair.
-     */
-    private fun confirmSelectedPair() {
-        if (selectedCards.size == 2) {
-            rootService.playerActionService.removePair(selectedCards[0].second, selectedCards[1].second)
-            selectedCards.clear()
-        }
-    }
-
-    /**
-     * Highlights the selected card with an animation
-     * @param cardView the selected card
-     * @param y the relative y position. On every animation follows an inverse animation and the y parameter determines
-     * the direction on the y-axes.
-     */
-    private fun highlightSelectedCard(cardView: CardView, y: Int) {
-        playAnimation(MovementAnimation(
-            componentView = cardView,
-            byY = y,
-            duration = 250
-        ).apply {
-            cardView.posY += y
-        })
     }
 
     /**
@@ -188,7 +162,7 @@ class PyramidGameScene(val rootService: RootService) : BoardGameScene(background
             } else {
                 //If the first card is selected, highlight it.
                 if (!cardTriple.second.isReserveCard)
-                    highlightSelectedCard(cardTriple.first, 20)
+                    util.highlightSelectedCard(cardTriple.first, 20)
             }
         }
     }

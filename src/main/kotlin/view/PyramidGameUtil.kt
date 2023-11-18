@@ -1,8 +1,13 @@
 package view
 
+import tools.aqua.bgw.animation.MovementAnimation
 import tools.aqua.bgw.components.gamecomponentviews.CardView
 import tools.aqua.bgw.visual.ImageVisual
 
+/**
+ * A help class for the main game scene.
+ * Provides ui help functions.
+ */
 class PyramidGameUtil(private val gameScene: PyramidGameScene) {
 
     /**
@@ -58,5 +63,35 @@ class PyramidGameUtil(private val gameScene: PyramidGameScene) {
         val blankCardView = CardView(front = ImageVisual(gameScene.loader.blankImage))
         blankCardView.scale(gameScene.scaleFactor)
         gameScene.reserveStack.push(blankCardView)
+    }
+
+    /**
+     * Triggers the removing of the selected pair.
+     */
+    fun confirmSelectedPair() {
+        if (gameScene.selectedCards.size == 2) {
+            gameScene.rootService.playerActionService.removePair(
+                gameScene.selectedCards[0].second,
+                gameScene.selectedCards[1].second
+            )
+            gameScene.selectedCards.clear()
+        }
+    }
+
+    /**
+     * Highlights the selected card with an animation
+     * @param cardView the selected card
+     * @param y the relative y position. On every animation follows an inverse animation and the y parameter determines
+     * the direction on the y-axes.
+     */
+    fun highlightSelectedCard(cardView: CardView, y: Int) {
+        gameScene.playAnimation(
+            MovementAnimation(
+                componentView = cardView,
+                byY = y,
+                duration = 250
+            ).apply {
+                cardView.posY += y
+            })
     }
 }
