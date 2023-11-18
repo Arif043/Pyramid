@@ -5,8 +5,14 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
 
+/**
+ * Test card states
+ */
 class TestCard {
 
+    /**
+     * Checks the default values after creation
+     */
     @Test
     fun defaultValues() {
         val card = Card(CardSuit.HEARTS, CardValue.SIX)
@@ -15,6 +21,9 @@ class TestCard {
         assertEquals(0, card.row)
     }
 
+    /**
+     * Tests toString()
+     */
     @Test
     fun testToString() {
         val card = Card(CardSuit.HEARTS, CardValue.SIX)
@@ -22,6 +31,9 @@ class TestCard {
         print(card)
     }
 
+    /**
+     * Tests equals()
+     */
     @Test
     fun testEquals() {
         val card1 = Card(CardSuit.HEARTS, CardValue.SIX)
@@ -31,6 +43,9 @@ class TestCard {
         assertNotEquals(card1, card3)
     }
 
+    /**
+     * Tests hashCode()
+     */
     @Test
     fun testHashCode() {
         val card1 = Card(CardSuit.HEARTS, CardValue.SIX)

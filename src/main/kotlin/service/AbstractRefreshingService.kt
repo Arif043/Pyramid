@@ -10,7 +10,7 @@ import view.Refreshable
  */
 abstract class AbstractRefreshingService {
 
-    private val refreshable = mutableListOf<Refreshable>()
+    val refreshable = mutableListOf<Refreshable>()
 
     /**
      * Adds a refreshable into the list

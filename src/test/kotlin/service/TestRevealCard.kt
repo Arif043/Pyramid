@@ -60,4 +60,13 @@ class TestRevealCard {
         assertEquals(isLeftNeighbourRevealedBefore, pyramid[6]?.get(2)?.revealed)
         assertEquals(isRightNeighbourRevealedBefore, pyramid[6]?.get(4)?.revealed)
     }
+
+    /**
+     * Tests if a revealCard call crashes on a reserve card.
+     */
+    @Test
+    fun testIfReserveCardGetsRevealed() {
+        root.playerActionService.drawCard()
+        root.playerActionService.revealCard(root.currentGame.reserveStack.peek())
+    }
 }

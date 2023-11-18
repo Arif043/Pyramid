@@ -75,6 +75,35 @@ class TestRemovePair {
     }
 
     /**
+     * Tests with only one ace and looks up how many points we get and if the row decreases by two
+     *
+     * If one card is an ace, so we get one point and the both cards in the pyramid get remove.
+     * The row decreases by 2
+     */
+    @Test
+    fun testWithAceReserved() {
+        root = RootService()
+        root.gameService.startNewGame("Alice", "Bob")
+        val card1 = Card(CardSuit.SPADES, CardValue.ACE)
+        val card2 = Card(CardSuit.CLUBS, CardValue.JACK)
+        card1.revealed = true
+        card1.row = 6
+        card2.revealed = true
+        card2.row = 6
+        swapCards(card1, 6, 0)
+        swapCards(card2, 6, 6)
+
+        val currentPlayer = root.currentGame.currentPlayer
+        val rowSize = root.currentGame.pyramid[6]?.size ?: 0
+        val scoreBefore = currentPlayer.score
+
+        root.playerActionService.removePair(card1, card2)
+
+        assertEquals(scoreBefore + 1, currentPlayer.score)
+        assertEquals(rowSize - 2, root.currentGame.pyramid[6]?.size)
+    }
+
+    /**
      * Tests with only aces and looks up how many points we get and if the row decreases by two
      *
      * If there is no ace in the pair, so we get zero points and both cards in the pyramid get not removed.
