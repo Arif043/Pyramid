@@ -33,21 +33,22 @@ import tools.aqua.bgw.visual.ImageVisual
  * @property pyramidY the pivot y value for the cards in the pyramid
  * @property scaleFactor the standard scale factor for the card images to make them smaller
  */
-class PyramidGameScene(private val rootService: RootService) : BoardGameScene(background = ColorVisual.ORANGE),
+class PyramidGameScene(val rootService: RootService) : BoardGameScene(background = ColorVisual.ORANGE),
     Refreshable {
 
-    private val drawStack = CardStack<CardView>(100, 100)
-    private val reserveStack = CardStack<CardView>(900, 100)
-    private val pyramid = HashMap<Int, ArrayList<CardView>>()
+    val drawStack = CardStack<CardView>(100, 100)
+    val reserveStack = CardStack<CardView>(900, 100)
+    val pyramid = HashMap<Int, ArrayList<CardView>>()
     private val currentPlayerLabel =
         Label(300, 900, width = 3 * width, alignment = Alignment.TOP_LEFT, font = Font(26), text = "Current Player")
     private val passButton =
         Button(800, 900, text = "Pass", font = Font(fontWeight = Font.FontWeight.BOLD))
     private val selectedCards = ArrayList<Triple<CardView, Card, Int>>()
-    private val loader = CardImageLoader()
-    private val pyramidX = 500.0
-    private val pyramidY = 10.0
-    private val scaleFactor = 0.5
+    val loader = CardImageLoader()
+    private val util = PyramidGameUtil(this)
+    val pyramidX = 500.0
+    val pyramidY = 10.0
+    val scaleFactor = 0.5
 
     init {
         buildUI()
@@ -62,9 +63,9 @@ class PyramidGameScene(private val rootService: RootService) : BoardGameScene(ba
         reserveStack.clear()
         drawStack.clear()
 
-        buildDrawStack()
-        buildPyramid()
-        buildReserveStack()
+        util.buildDrawStack()
+        util.buildPyramid()
+        util.buildReserveStack()
 
         currentPlayerLabel.text = "Current Player: ${rootService.currentGame.currentPlayer.playerName}"
         passButton.visual = ColorVisual.CYAN
@@ -82,66 +83,10 @@ class PyramidGameScene(private val rootService: RootService) : BoardGameScene(ba
     }
 
     /**
-     * Builds the ui stack and projects the drawStack in the entity layer.
-     */
-    private fun buildDrawStack() {
-        val drawStackCards = rootService.currentGame.drawStack.peekAll()
-        for (i in drawStackCards.lastIndex downTo 0) {
-            drawStack.add(getCardViewFrom(drawStackCards[i]))
-        }
-    }
-
-    /**
-     * Builds the ui pyramid and projects the pyramid in the entity layer.
-     */
-    private fun buildPyramid() {
-        //Stores the relative additional values for the cards
-        var deltaPyramidX = pyramidX
-        var deltaPyramidY = pyramidY
-        val cardWidth = drawStack.peek().actualWidth
-        val cardHeight = drawStack.peek().actualHeight
-
-        //Loops through the pyramid
-        for (entry in rootService.currentGame.pyramid) {
-            pyramid[entry.key] = ArrayList()
-            for (card in entry.value) {
-                val cardView = getCardViewFrom(card)
-                //If the card is on border then flip it
-                if (entry.value.indexOf(card) == 0 || entry.value.indexOf(card) == entry.value.lastIndex)
-                    cardView.showFront()
-
-                //Set the relative positon
-                cardView.posX = deltaPyramidX
-                cardView.posY = deltaPyramidY
-
-                pyramid[entry.key]?.add(cardView)
-
-                //Set the new x position for next card in this row
-                deltaPyramidX += 2 * cardView.actualWidth
-            }
-            //Set the first x position for the next row
-            deltaPyramidX = pyramidX - (entry.key + 1) * cardWidth
-            //Set the y position for the next row
-            deltaPyramidY += cardHeight
-        }
-    }
-
-    /**
-     * Builds the ui stack and projects the reserveStack in the entity layer.
-     */
-    private fun buildReserveStack() {
-        val loader = CardImageLoader()
-        //Create an empty blank card
-        val blankCardView = CardView(front = ImageVisual(loader.blankImage))
-        blankCardView.scale(scaleFactor)
-        reserveStack.push(blankCardView)
-    }
-
-    /**
      * Creates a CardView for a given Card object.
      * @param card the given card from the entity layer
      */
-    private fun getCardViewFrom(card: Card) : CardView {
+    fun getCardViewFrom(card: Card): CardView {
         val frontVisual = ImageVisual(loader.frontImageFor(card.suit, card.value))
         val backVisual = ImageVisual(loader.backImage)
         val cardView = CardView(front = frontVisual, back = backVisual)
