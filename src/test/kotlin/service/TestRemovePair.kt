@@ -104,6 +104,31 @@ class TestRemovePair {
     }
 
     /**
+     * Tests with reserveStack and looks up how many points we get and if the row decreases by one
+     */
+    @Test
+    fun testFromReserveStack() {
+        root = RootService()
+        root.gameService.startNewGame("Alice", "Bob")
+        val card1 = Card(CardSuit.SPADES, CardValue.FOUR)
+        val card2 = Card(CardSuit.HEARTS, CardValue.JACK)
+        card1.isReserveCard = true
+        card1.revealed = true
+        card2.row = 6
+        card2.revealed = true
+        swapCards(card2, 6, 0)
+
+        val currentPlayer = root.currentGame.currentPlayer
+        val rowSize = root.currentGame.pyramid[6]?.size ?: 0
+        val scoreBefore = currentPlayer.score
+
+        root.playerActionService.removePair(card1, card2)
+
+        assertEquals(scoreBefore + 2, currentPlayer.score)
+        assertEquals(rowSize - 1, root.currentGame.pyramid[6]?.size)
+    }
+
+    /**
      * A useful private function. swap two given cards in the game
      *
      * @param pivotCard A card with the characteristics that we want to swap

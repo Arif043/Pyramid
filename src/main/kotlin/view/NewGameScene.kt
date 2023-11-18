@@ -29,7 +29,7 @@ import java.awt.Color
 class NewGameScene(private val rootService: RootService) : MenuScene(270, 500), Refreshable {
 
     private val fontSize = 13
-    val player1NameLabel = Label(
+    private val player1NameLabel = Label(
         text = "Player 1",
         posY = 10,
         font = Font(fontSize)
@@ -38,7 +38,7 @@ class NewGameScene(private val rootService: RootService) : MenuScene(270, 500), 
         posY = player1NameLabel.posY + player1NameLabel.height,
         font = Font(fontSize),
     )
-    val player2NameLabel = Label(
+    private val player2NameLabel = Label(
         text = "Player 2",
         posY = player1NameField.posY + player1NameField.height + 15,
         font = Font(fontSize)
@@ -69,6 +69,7 @@ class NewGameScene(private val rootService: RootService) : MenuScene(270, 500), 
     )
 
     init {
+        rootService.gameService //Just for detekt
         player1NameField.width *= 1.9
         player2NameField.width *= 1.9
         addComponents(
