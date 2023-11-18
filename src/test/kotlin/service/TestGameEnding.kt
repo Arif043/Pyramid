@@ -8,6 +8,9 @@ import kotlin.test.assertEquals
  */
 class TestGameEnding {
 
+    /**
+     * Tests game ending through passing
+     */
     @Test
     fun testEndGame() {
         val rootService = RootService()
