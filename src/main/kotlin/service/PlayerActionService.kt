@@ -95,7 +95,8 @@ class PlayerActionService(private val rootService: RootService) : AbstractRefres
     /**
      * reveals the neighbours of the card to be removed
      *
-     * @throws IllegalArgumentException the card to be removed has to be on the border, otherwise this exception will be thrown
+     * @throws IllegalArgumentException the card to be removed has to be on the border,
+     * otherwise this exception will be thrown
      */
     fun revealCard(card: Card) {
         if (!card.isReserveCard) {

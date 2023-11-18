@@ -4,7 +4,15 @@ import service.RootService
 import tools.aqua.bgw.core.BoardGameApplication
 import kotlin.system.exitProcess
 
-class SopraApplication : BoardGameApplication("SoPra Game"), Refreshable {
+/**
+ * The game class represents the whole game.
+ *
+ * @property rootService the root service
+ * @property gameScene the main menu scene
+ * @property newGameScene represents the start menu
+ * @property gameScene represents the end game
+ */
+class PyramidApplication : BoardGameApplication("SoPra Game"), Refreshable {
 
     private val rootService = RootService()
     private var gameScene: PyramidGameScene
