@@ -7,6 +7,21 @@ import tools.aqua.bgw.core.MenuScene
 import tools.aqua.bgw.util.Font
 import tools.aqua.bgw.visual.ColorVisual
 
+/**
+ * Menuscene for representing the end of game
+ *
+ * Names and scores of players will be displayed also the winner.
+ *
+ * @property rootService the root service
+ * @property fontSize the standard font size for all text components in this scene
+ * @property winnerLabel label which shows the winner
+ * @property player1Name label which shows the name of the first player
+ * @property player2Name label which shows the name of the second player
+ * @property player1Score label which shows the score of the first player
+ * @property player2Score label which shows the score of the second player
+ * @property quitButton button that closes the application
+ * @property restartButton button that restarts the game
+ */
 class GameFinishedMenuScene(private val rootService: RootService) : MenuScene(270, 500), Refreshable {
 
     private val fontSize = 13
@@ -67,6 +82,7 @@ class GameFinishedMenuScene(private val rootService: RootService) : MenuScene(27
     }
 
     override fun refreshAfterEndGame() {
+        //Refresh the ui components with the game data
         player1Name.text = rootService.currentGame.player1.playerName
         player2Name.text = rootService.currentGame.player2.playerName
         player1Score.text = rootService.currentGame.player1.score.toString()
@@ -78,20 +94,5 @@ class GameFinishedMenuScene(private val rootService: RootService) : MenuScene(27
                     player2Name.text
                 else
                     "Nobody"
-    }
-
-    override fun refreshAfterStartNewGame() {
-    }
-
-    override fun refreshAfterRemovePair(cardsAreValid: Boolean) {
-    }
-
-    override fun refreshAfterDrawCard(stackNoptEmpty: Boolean) {
-    }
-
-    override fun refreshAfterPass() {
-    }
-
-    override fun refreshAfterSwitchPlayer() {
     }
 }

@@ -15,6 +15,7 @@ class SopraApplication : BoardGameApplication("SoPra Game"), Refreshable {
        //Just for style
        rootService.gameService.startNewGame("Alice", "Bob")
 
+       //Creates the scenes
        gameScene = PyramidGameScene(rootService)
        newGameScene = NewGameScene(rootService)
        gameEndMenu = GameFinishedMenuScene(rootService)
@@ -32,11 +33,15 @@ class SopraApplication : BoardGameApplication("SoPra Game"), Refreshable {
        showMenuScene(newGameScene)
    }
 
+    /**
+     * Regists the event handler for the menu events.
+     */
     private fun registerMenuEvents() {
         newGameScene.quitButton.onMouseClicked = {
             exitProcess(0)
         }
         newGameScene.startButton.onMouseClicked = {
+            //If the names have not been entered then shows an error message
             if (newGameScene.player1NameField.text.isBlank() || newGameScene.player2NameField.text.isBlank()) {
                 newGameScene.removeComponents(newGameScene.errorLabel)
                 newGameScene.addComponents(newGameScene.errorLabel)
@@ -57,23 +62,11 @@ class SopraApplication : BoardGameApplication("SoPra Game"), Refreshable {
         }
     }
 
+    /**
+     * Switch to the end menu.
+     */
     override fun refreshAfterEndGame() {
         hideMenuScene()
         showMenuScene(gameEndMenu)
-    }
-
-    override fun refreshAfterStartNewGame() {
-    }
-
-    override fun refreshAfterRemovePair(cardsAreValid: Boolean) {
-    }
-
-    override fun refreshAfterDrawCard(stackNoptEmpty: Boolean) {
-    }
-
-    override fun refreshAfterPass() {
-    }
-
-    override fun refreshAfterSwitchPlayer() {
     }
 }

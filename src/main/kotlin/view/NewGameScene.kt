@@ -10,6 +10,22 @@ import tools.aqua.bgw.util.Font
 import tools.aqua.bgw.visual.ColorVisual
 import java.awt.Color
 
+/**
+ * Menuscene for representing the start menu.
+ *
+ * Displays two textfields expecting the names of the player and
+ * two buttons for closing and starting the game
+ *
+ * @property rootService the root service
+ * @property fontSize the standard font size for all text components in this scene
+ * @property player1NameLabel indicates that the name of the first player should be entered
+ * @property player2NameLabel indicates that the name of the second player should be entered
+ * @property player1NameField textfield that is expecting the name of the first player
+ * @property player2NameField textfield that is expecting the name of the second player
+ * @property errorLabel label which shows an error message when one of the textfields is empty
+ * @property quitButton button that closes the application
+ * @property startButton button that starts the game
+ */
 class NewGameScene(private val rootService: RootService) : MenuScene(270, 500), Refreshable {
 
     private val fontSize = 13
@@ -63,29 +79,5 @@ class NewGameScene(private val rootService: RootService) : MenuScene(270, 500), 
             quitButton,
             startButton
         )
-    }
-
-    override fun refreshAfterEndGame() {
-
-    }
-
-    override fun refreshAfterStartNewGame() {
-
-    }
-
-    override fun refreshAfterRemovePair(cardsAreValid: Boolean) {
-
-    }
-
-    override fun refreshAfterDrawCard(stackNoptEmpty: Boolean) {
-
-    }
-
-    override fun refreshAfterPass() {
-
-    }
-
-    override fun refreshAfterSwitchPlayer() {
-
     }
 }
