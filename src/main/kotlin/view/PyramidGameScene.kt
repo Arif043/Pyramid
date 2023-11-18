@@ -162,16 +162,14 @@ class PyramidGameScene(private val rootService: RootService) : BoardGameScene(ba
             for (cardView in entry.value) {
                 cardView.onMouseClicked = {
                     val index = entry.value.indexOf(cardView)
+                    val card = rootService.currentGame.pyramid[entry.key]?.get(index)
                     //If the card is on border
-                    if (index == 0 || index == pyramid[entry.key]?.lastIndex) {
+                    if ((index == 0 || index == pyramid[entry.key]?.lastIndex) && card != null) {
                         //Select the card and add it to the list
                         highlightSelectedCard(cardView, -20)
-                        val card = rootService.currentGame.pyramid[entry.key]?.get(index)
                         //Just for null check
-                        if (card != null) {
-                            selectedCards.add(Triple(cardView, card, entry.key))
-                            confirmSelectedPair()
-                        }
+                        selectedCards.add(Triple(cardView, card, entry.key))
+                        confirmSelectedPair()
                     }
                 }
             }
