@@ -12,7 +12,7 @@ import kotlin.system.exitProcess
  * @property newGameScene represents the start menu
  * @property gameScene represents the end game
  */
-class PyramidApplication : BoardGameApplication("SoPra Game"), Refreshable {
+class PyramidApplication : BoardGameApplication("Pyramid Game"), Refreshable {
 
     private val rootService = RootService()
     private var gameScene: PyramidGameScene
