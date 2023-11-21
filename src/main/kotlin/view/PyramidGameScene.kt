@@ -108,11 +108,11 @@ class PyramidGameScene(val rootService: RootService) : BoardGameScene(background
                 cardView.onMouseClicked = {
                     val index = entry.value.indexOf(cardView)
                     val card = rootService.currentGame.pyramid[entry.key]?.get(index)
+                    checkNotNull(card)
                     //If the card is on border
-                    if ((index == 0 || index == pyramid[entry.key]?.lastIndex) && card != null) {
+                    if ((index == 0 || index == pyramid[entry.key]?.lastIndex)) {
                         //Select the card and add it to the list
                         util.highlightSelectedCard(cardView, -20)
-                        //Just for null check
                         selectedCards.add(Triple(cardView, card, entry.key))
                         util.confirmSelectedPair()
                     }
@@ -178,8 +178,9 @@ class PyramidGameScene(val rootService: RootService) : BoardGameScene(background
             0 -> 1
             else -> pyramid[cardTriple.third]?.lastIndex?.minus(1)
         }
+        checkNotNull(neighbourIndex)
         //If the row is not empty then the neighbour musts exist and gets revealed
-        if (neighbourIndex != null && pyramid[cardTriple.third]?.size != 1) {
+        if (pyramid[cardTriple.third]?.size != 1) {
             pyramid[cardTriple.third]?.get(neighbourIndex)?.showFront()
         }
         //Remove the selected card
@@ -191,10 +192,6 @@ class PyramidGameScene(val rootService: RootService) : BoardGameScene(background
      */
     override fun refreshAfterDrawCard(stackNoptEmpty: Boolean) {
         if (stackNoptEmpty) {
-            //without animation
-//            val cardView = drawStack.pop()
-//            cardView.showFront()
-//            reserveStack.push(cardView)
             val card = drawStack.peek()
             //Play the animation
             playAnimation(ParallelAnimation(

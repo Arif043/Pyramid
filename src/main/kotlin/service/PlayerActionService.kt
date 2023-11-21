@@ -107,9 +107,9 @@ class PlayerActionService(private val rootService: RootService) : AbstractRefres
                 0 -> 1
                 pyramid[card.row]?.lastIndex -> pyramid[card.row]?.lastIndex?.minus(1)
                 else -> throw IllegalArgumentException("Card is not on border")
-
             }
-            if (neighbourIndex != null && pyramid[card.row]?.size != 1) {
+            checkNotNull(neighbourIndex)
+            if (pyramid[card.row]?.size != 1) {
                 pyramid[card.row]?.get(neighbourIndex)?.revealed = true
             }
         }
