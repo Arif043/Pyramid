@@ -43,7 +43,7 @@ class PyramidGameScene(val rootService: RootService) : BoardGameScene(background
         Label(300, 900, width = 3 * width, alignment = Alignment.TOP_LEFT, font = Font(26), text = "Current Player")
     private val passButton =
         Button(800, 900, text = "Pass", font = Font(fontWeight = Font.FontWeight.BOLD))
-    val selectedCards = ArrayList<Triple<CardView, Card, Int>>()
+    val selectedCards = ArrayList<Pair<CardView, Card>>()
     val loader = CardImageLoader()
     private val util = PyramidGameUtil(this)
     val pyramidX = 500.0
@@ -113,7 +113,7 @@ class PyramidGameScene(val rootService: RootService) : BoardGameScene(background
                     if ((index == 0 || index == pyramid[entry.key]?.lastIndex)) {
                         //Select the card and add it to the list
                         util.highlightSelectedCard(cardView, -20)
-                        selectedCards.add(Triple(cardView, card, entry.key))
+                        selectedCards.add(Pair(cardView, card))
                         util.confirmSelectedPair()
                     }
                 }
@@ -127,7 +127,7 @@ class PyramidGameScene(val rootService: RootService) : BoardGameScene(background
                 reserveStack.push(topCard)
                 //If reserveStack contains at least a game card then select the top card
                 if (topCardIsNotBlank) {
-                    selectedCards += Triple(reserveStack.peek(), rootService.currentGame.reserveStack.peek(), 7)
+                    selectedCards += Pair(reserveStack.peek(), rootService.currentGame.reserveStack.peek())
                     util.confirmSelectedPair()
                 }
             }
@@ -171,20 +171,20 @@ class PyramidGameScene(val rootService: RootService) : BoardGameScene(background
      * A private help function that removes the selected cards and reveals the neighbours.
      * @param cardTriple the selected card in a triple object
      */
-    private fun removePyramidCard(cardTriple: Triple<CardView, Card, Int>) {
+    private fun removePyramidCard(cardTriple: Pair<CardView, Card>) {
         removeComponents(cardTriple.first)
         //Determines the neighbours index
-        val neighbourIndex = when (pyramid[cardTriple.third]?.indexOf(cardTriple.first)) {
+        val neighbourIndex = when (pyramid[cardTriple.second.row]?.indexOf(cardTriple.first)) {
             0 -> 1
-            else -> pyramid[cardTriple.third]?.lastIndex?.minus(1)
+            else -> pyramid[cardTriple.second.row]?.lastIndex?.minus(1)
         }
         checkNotNull(neighbourIndex)
         //If the row is not empty then the neighbour musts exist and gets revealed
-        if (pyramid[cardTriple.third]?.size != 1) {
-            pyramid[cardTriple.third]?.get(neighbourIndex)?.showFront()
+        if (pyramid[cardTriple.second.row]?.size != 1) {
+            pyramid[cardTriple.second.row]?.get(neighbourIndex)?.showFront()
         }
         //Remove the selected card
-        pyramid[cardTriple.third]?.remove(cardTriple.first)
+        pyramid[cardTriple.second.row]?.remove(cardTriple.first)
     }
 
     /**
