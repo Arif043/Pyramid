@@ -25,7 +25,7 @@ class PyramidApplication : BoardGameApplication("Pyramid Game"), Refreshable {
 
        //Creates the scenes
        gameScene = PyramidGameScene(rootService)
-       newGameScene = NewGameScene(rootService)
+       newGameScene = NewGameScene()
        gameEndMenu = GameFinishedMenuScene(rootService)
 
        rootService.addRefreshables(

@@ -1,6 +1,5 @@
 package view
 
-import service.RootService
 import tools.aqua.bgw.components.uicomponents.Button
 import tools.aqua.bgw.components.uicomponents.Label
 import tools.aqua.bgw.components.uicomponents.TextField
@@ -16,7 +15,6 @@ import java.awt.Color
  * Displays two textfields expecting the names of the player and
  * two buttons for closing and starting the game
  *
- * @property rootService the root service
  * @property fontSize the standard font size for all text components in this scene
  * @property player1NameLabel indicates that the name of the first player should be entered
  * @property player2NameLabel indicates that the name of the second player should be entered
@@ -26,7 +24,7 @@ import java.awt.Color
  * @property quitButton button that closes the application
  * @property startButton button that starts the game
  */
-class NewGameScene(private val rootService: RootService) : MenuScene(270, 500), Refreshable {
+class NewGameScene : MenuScene(270, 500), Refreshable {
 
     private val fontSize = 13
     private val player1NameLabel = Label(
@@ -69,7 +67,6 @@ class NewGameScene(private val rootService: RootService) : MenuScene(270, 500), 
     )
 
     init {
-        rootService.gameService //Just for detekt
         player1NameField.width *= 1.9
         player2NameField.width *= 1.9
         addComponents(

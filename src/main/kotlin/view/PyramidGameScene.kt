@@ -32,6 +32,7 @@ import tools.aqua.bgw.visual.ImageVisual
  * @property pyramidX the pivot x value for the cards in the pyramid
  * @property pyramidY the pivot y value for the cards in the pyramid
  * @property scaleFactor the standard scale factor for the card images to make them smaller
+ * @property drawStackAnimationIsRunning true if a drawn card is still animating, false otherwise
  */
 class PyramidGameScene(val rootService: RootService) : BoardGameScene(background = ColorVisual.ORANGE),
     Refreshable {
@@ -49,6 +50,7 @@ class PyramidGameScene(val rootService: RootService) : BoardGameScene(background
     val pyramidX = 500.0
     val pyramidY = 10.0
     val scaleFactor = 0.5
+    private var drawStackAnimationIsRunning = false
 
     init {
         buildUI()
@@ -99,8 +101,10 @@ class PyramidGameScene(val rootService: RootService) : BoardGameScene(background
      */
     private fun registerGameEvents() {
         drawStack.onMouseClicked = {
-            if (drawStack.isNotEmpty())
+            if (drawStack.isNotEmpty() && !drawStackAnimationIsRunning) {
+                drawStackAnimationIsRunning = true
                 rootService.playerActionService.drawCard()
+            }
         }
         //For every card in the pyramid
         for (entry in pyramid)
@@ -119,17 +123,10 @@ class PyramidGameScene(val rootService: RootService) : BoardGameScene(background
                 }
             }
         reserveStack.onMouseClicked = {
-            if (reserveStack.isNotEmpty()) {
-                //Because the ui stack has no any size method, proof if the card on the top is not blank.
-                //If the top card is blank then the reserveStack does not contain any game card
-                val topCard = reserveStack.pop()
-                val topCardIsNotBlank = reserveStack.isNotEmpty()
-                reserveStack.push(topCard)
                 //If reserveStack contains at least a game card then select the top card
-                if (topCardIsNotBlank) {
+            if (reserveStack.numberOfComponents() > 1) {
                     selectedCards += Pair(reserveStack.peek(), rootService.currentGame.reserveStack.peek())
                     util.confirmSelectedPair()
-                }
             }
         }
         passButton.onMouseClicked = {
@@ -148,43 +145,40 @@ class PyramidGameScene(val rootService: RootService) : BoardGameScene(background
      * Refreshes the components after a pair has been removed.
      */
     override fun refreshAfterRemovePair(cardsAreValid: Boolean) {
-        for (cardTriple in selectedCards) {
-            if (cardsAreValid) {
+        if (cardsAreValid) {
+            for (pair in selectedCards) {
                 //If the selected card is in the pyramid, remove it.
-                if (!cardTriple.second.isReserveCard) {
-                    removePyramidCard(cardTriple)
+                if (!pair.second.isReserveCard) {
+                    removePyramidCard(pair)
                 } else {
                     //The selected card must be on the reserveStack, pop it.
                     reserveStack.pop()
                 }
                 //Reset the pass button
                 passButton.visual = ColorVisual.CYAN
-            } else {
-                //If the first card is selected, highlight it.
-                if (!cardTriple.second.isReserveCard)
-                    util.highlightSelectedCard(cardTriple.first, 20)
             }
-        }
+        } else
+            util.clearSelectedPair()
     }
 
     /**
      * A private help function that removes the selected cards and reveals the neighbours.
-     * @param cardTriple the selected card in a triple object
+     * @param pair the selected card in a triple object
      */
-    private fun removePyramidCard(cardTriple: Pair<CardView, Card>) {
-        removeComponents(cardTriple.first)
+    private fun removePyramidCard(pair: Pair<CardView, Card>) {
+        removeComponents(pair.first)
         //Determines the neighbours index
-        val neighbourIndex = when (pyramid[cardTriple.second.row]?.indexOf(cardTriple.first)) {
+        val neighbourIndex = when (pyramid[pair.second.row]?.indexOf(pair.first)) {
             0 -> 1
-            else -> pyramid[cardTriple.second.row]?.lastIndex?.minus(1)
+            else -> pyramid[pair.second.row]?.lastIndex?.minus(1)
         }
         checkNotNull(neighbourIndex)
         //If the row is not empty then the neighbour musts exist and gets revealed
-        if (pyramid[cardTriple.second.row]?.size != 1) {
-            pyramid[cardTriple.second.row]?.get(neighbourIndex)?.showFront()
+        if (pyramid[pair.second.row]?.size != 1) {
+            pyramid[pair.second.row]?.get(neighbourIndex)?.showFront()
         }
         //Remove the selected card
-        pyramid[cardTriple.second.row]?.remove(cardTriple.first)
+        pyramid[pair.second.row]?.remove(pair.first)
     }
 
     /**
@@ -213,11 +207,13 @@ class PyramidGameScene(val rootService: RootService) : BoardGameScene(background
                 ).apply {
                     onFinished = {
                         card.showFront()
+                        drawStackAnimationIsRunning = false
                     }
                 }
             ))
             //Resets the pass button
             passButton.visual = ColorVisual.CYAN
+            util.clearSelectedPair()
         }
     }
 
@@ -226,6 +222,7 @@ class PyramidGameScene(val rootService: RootService) : BoardGameScene(background
      */
     override fun refreshAfterPass() {
         passButton.visual = ColorVisual.RED
+        util.clearSelectedPair()
     }
 
     /**

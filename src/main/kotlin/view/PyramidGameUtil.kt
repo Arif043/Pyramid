@@ -79,6 +79,18 @@ class PyramidGameUtil(private val gameScene: PyramidGameScene) {
     }
 
     /**
+     * Resets the selected card back
+     */
+    fun clearSelectedPair() {
+        for (pair in gameScene.selectedCards) {
+            if (!pair.second.isReserveCard) {
+                highlightSelectedCard(pair.first, 20)
+            }
+        }
+        gameScene.selectedCards.clear()
+    }
+
+    /**
      * Highlights the selected card with an animation
      * @param cardView the selected card
      * @param y the relative y position. On every animation follows an inverse animation and the y parameter determines
