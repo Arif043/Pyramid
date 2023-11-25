@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<SmellBaseline>
+    <ManuallySuppressedIssues/>
+    <CurrentIssues>
+        <ID>EmptyFunctionBlock:GameFinishedMenuScene.kt$GameFinishedMenuScene${ }</ID>
+        <ID>EmptyFunctionBlock:NewGameScene.kt$NewGameScene${ }</ID>
+        <ID>EmptyFunctionBlock:SopraApplication.kt$SopraApplication${ }</ID>
+        <ID>MaxLineLength:PlayerActionService.kt$PlayerActionService$*</ID>
+        <ID>NestedBlockDepth:PyramidGameScene.kt$PyramidGameScene$override fun refreshAfterRemovePair(cardsAreValid:
+            Boolean)
+        </ID>
+        <ID>TooManyFunctions:PyramidGameScene.kt$PyramidGameScene : BoardGameSceneRefreshable</ID>
+        <ID>UndocumentedPublicClass:GameFinishedMenuScene.kt$GameFinishedMenuScene : MenuSceneRefreshable</ID>
+        <ID>UndocumentedPublicClass:HelloScene.kt$HelloScene : BoardGameScene</ID>
+        <ID>UndocumentedPublicClass:NewGameScene.kt$NewGameScene : MenuSceneRefreshable</ID>
+        <ID>UndocumentedPublicClass:PyramidGameScene.kt$PyramidGameScene : BoardGameSceneRefreshable</ID>
+        <ID>UndocumentedPublicClass:Refreshable.kt$Refreshable</ID>
+        <ID>UndocumentedPublicClass:SopraApplication.kt$SopraApplication : BoardGameApplicationRefreshable</ID>
+        <ID>UndocumentedPublicFunction:Main.kt$fun main()</ID>
+        <ID>UndocumentedPublicFunction:Refreshable.kt$Refreshable$fun refreshAfterDrawCard(stackNoptEmpty: Boolean)</ID>
+        <ID>UndocumentedPublicFunction:Refreshable.kt$Refreshable$fun refreshAfterEndGame()</ID>
+        <ID>UndocumentedPublicFunction:Refreshable.kt$Refreshable$fun refreshAfterPass()</ID>
+        <ID>UndocumentedPublicFunction:Refreshable.kt$Refreshable$fun refreshAfterRemovePair(cardsAreValid: Boolean)
+        </ID>
+        <ID>UndocumentedPublicFunction:Refreshable.kt$Refreshable$fun refreshAfterStartNewGame()</ID>
+        <ID>UndocumentedPublicFunction:Refreshable.kt$Refreshable$fun refreshAfterSwitchPlayer()</ID>
+        <ID>UnusedPrivateMember:NewGameScene.kt$NewGameScene$private val rootService: RootService</ID>
+    </CurrentIssues>
+</SmellBaseline>
