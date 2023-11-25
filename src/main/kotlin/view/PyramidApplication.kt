@@ -54,6 +54,7 @@ class PyramidApplication : BoardGameApplication("Pyramid Game"), Refreshable {
                 newGameScene.removeComponents(newGameScene.errorLabel)
                 newGameScene.addComponents(newGameScene.errorLabel)
             } else {
+                newGameScene.removeComponents(newGameScene.errorLabel)
                 rootService.gameService.startNewGame(
                     newGameScene.player1NameField.text.trim(),
                     newGameScene.player2NameField.text.trim()
