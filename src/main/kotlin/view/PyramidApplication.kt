@@ -49,12 +49,11 @@ class PyramidApplication : BoardGameApplication("Pyramid Game"), Refreshable {
             exitProcess(0)
         }
         newGameScene.startButton.onMouseClicked = {
+            newGameScene.removeComponents(newGameScene.errorLabel)
             //If the names have not been entered then shows an error message
             if (newGameScene.player1NameField.text.isBlank() || newGameScene.player2NameField.text.isBlank()) {
-                newGameScene.removeComponents(newGameScene.errorLabel)
                 newGameScene.addComponents(newGameScene.errorLabel)
             } else {
-                newGameScene.removeComponents(newGameScene.errorLabel)
                 rootService.gameService.startNewGame(
                     newGameScene.player1NameField.text.trim(),
                     newGameScene.player2NameField.text.trim()
