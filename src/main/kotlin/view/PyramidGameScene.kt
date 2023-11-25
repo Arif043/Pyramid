@@ -15,6 +15,8 @@ import tools.aqua.bgw.core.BoardGameScene
 import tools.aqua.bgw.util.Font
 import tools.aqua.bgw.visual.ColorVisual
 import tools.aqua.bgw.visual.ImageVisual
+import java.awt.Color
+import javax.imageio.ImageIO
 
 /**
  * Gamescene for representing the game
@@ -34,25 +36,42 @@ import tools.aqua.bgw.visual.ImageVisual
  * @property scaleFactor the standard scale factor for the card images to make them smaller
  * @property drawStackAnimationIsRunning true if a drawn card is still animating, false otherwise
  */
-class PyramidGameScene(val rootService: RootService) : BoardGameScene(background = ColorVisual.ORANGE),
+class PyramidGameScene(val rootService: RootService) : BoardGameScene(/*background = ColorVisual.ORANGE*/),
     Refreshable {
 
-    val drawStack = CardStack<CardView>(100, 100)
-    val reserveStack = CardStack<CardView>(900, 100)
+    val drawStack = CardStack<CardView>(500, 100)
+    val reserveStack = CardStack<CardView>(1300, 100)
     val pyramid = HashMap<Int, ArrayList<CardView>>()
     private val currentPlayerLabel =
-        Label(300, 900, width = 3 * width, alignment = Alignment.TOP_LEFT, font = Font(26), text = "Current Player")
+        Label(
+            700,
+            925,
+            width = 500,
+            alignment = Alignment.TOP_LEFT,
+            font = Font(32, Color.WHITE, fontWeight = Font.FontWeight.BOLD, fontStyle = Font.FontStyle.ITALIC),
+            text = "Current Player"
+        )
     private val passButton =
-        Button(800, 900, text = "Pass", font = Font(fontWeight = Font.FontWeight.BOLD))
+        Button(
+            1200,
+            925,
+            text = "Pass",
+            font = Font(fontWeight = Font.FontWeight.BOLD, size = 20, fontStyle = Font.FontStyle.ITALIC)
+        )
     val selectedCards = ArrayList<Pair<CardView, Card>>()
     val loader = CardImageLoader()
     private val util = PyramidGameUtil(this)
-    val pyramidX = 500.0
+    val pyramidX = 900.0
     val pyramidY = 10.0
     val scaleFactor = 0.5
     private var drawStackAnimationIsRunning = false
 
     init {
+        //Init background
+        val url = this::class.java.classLoader.getResourceAsStream("background.jpg")
+        checkNotNull(url)
+        background = ImageVisual(ImageIO.read(url))
+
         buildUI()
     }
 
