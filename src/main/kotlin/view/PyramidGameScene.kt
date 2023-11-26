@@ -16,7 +16,6 @@ import tools.aqua.bgw.util.Font
 import tools.aqua.bgw.visual.ColorVisual
 import tools.aqua.bgw.visual.ImageVisual
 import java.awt.Color
-import javax.imageio.ImageIO
 
 /**
  * Gamescene for representing the game
@@ -36,7 +35,7 @@ import javax.imageio.ImageIO
  * @property scaleFactor the standard scale factor for the card images to make them smaller
  * @property drawStackAnimationIsRunning true if a drawn card is still animating, false otherwise
  */
-class PyramidGameScene(val rootService: RootService) : BoardGameScene(/*background = ColorVisual.ORANGE*/),
+class PyramidGameScene(val rootService: RootService) : BoardGameScene(background = ImageVisual("background.jpg")),
     Refreshable {
 
     val drawStack = CardStack<CardView>(500, 100)
@@ -67,11 +66,6 @@ class PyramidGameScene(val rootService: RootService) : BoardGameScene(/*backgrou
     private var drawStackAnimationIsRunning = false
 
     init {
-        //Init background
-        val url = this::class.java.classLoader.getResourceAsStream("background.jpg")
-        checkNotNull(url)
-        background = ImageVisual(ImageIO.read(url))
-
         buildUI()
     }
 
