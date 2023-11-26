@@ -18,7 +18,7 @@ import tools.aqua.bgw.visual.ImageVisual
 import java.awt.Color
 
 /**
- * Gamescene for representing the game
+ * Gamescene for representing the game.
  *
  * Shows the pyramid, passbutton, the drawstack and the reservestack
  *

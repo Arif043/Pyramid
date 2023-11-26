@@ -4,7 +4,7 @@ import entity.PyramidGame
 import view.Refreshable
 
 /**
- * the central root service
+ * The central root service
  *
  * @property currentGame holds the current game
  * @property gameService holds the game service

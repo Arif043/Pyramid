@@ -8,7 +8,7 @@ import tools.aqua.bgw.util.Font
 import tools.aqua.bgw.visual.ColorVisual
 
 /**
- * Menuscene for representing the end of game
+ * Menuscene for representing the end of game.
  *
  * Names and scores of players will be displayed also the winner.
  *
