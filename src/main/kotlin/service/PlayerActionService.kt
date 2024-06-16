@@ -123,7 +123,7 @@ class PlayerActionService(private val rootService: RootService) : AbstractRefres
     fun areCardsValid(card1: Card, card2: Card): Boolean {
         val isCard1Ace = card1.value == CardValue.ACE
         val isCard2Ace = card2.value == CardValue.ACE
-        return !(isCard1Ace && isCard2Ace) && (isCard1Ace.xor(isCard2Ace) || card1.value() + card2.value() == 15)
+        return /*!(isCard1Ace && isCard2Ace) &&*/ (isCard1Ace.xor(isCard2Ace) || card1.value() + card2.value() == 15)
     }
 
     /**
