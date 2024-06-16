@@ -1,7 +1,3 @@
-# SoPra Projekt 1 (Einzelprojekt)
+# Pyramid Kartenspiel
 
-## Wichtige Links
-
-* Aktuelle Informationen zu diesem SoPra: https://sopra.cs.tu-dortmund.de/wiki/sopra/23d/start
-* Beispielprojekt Kartenspiel War: https://sopra-gitlab.cs.tu-dortmund.de/internal/bgw-war
-* Weitere Links: https://sopra.cs.tu-dortmund.de/wiki/infos/links/
+![grafik](https://github.com/Arif043/Pyramid/assets/142011752/230ae979-facb-461d-b0a1-a9753d45e723)
